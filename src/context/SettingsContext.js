@@ -17,5 +17,19 @@ export const SettingsProvider = ({ children }) => {
     activeScenes,
     setActiveScenes,
     // Helper to toggle a specific scene
+    toggleSceneActive: (sceneId, isActive) => {
+      setActiveScenes(prev => ({ ...prev, [sceneId]: isActive }));
+    },
+  };
 
-// TODO: Complete remaining implementation (40% done)
+  return (
+    <SettingsContext.Provider value={value}>
+      {children}
+    </SettingsContext.Provider>
+  );
+};
+
+export const useSettings = () => {
+  const context = useContext(SettingsContext);
+
+// TODO: Complete remaining implementation (70% done)
