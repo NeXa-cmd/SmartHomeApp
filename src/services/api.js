@@ -43,5 +43,39 @@ export const fetchDevice = async (deviceId) => {
     
     const data = await response.json();
     return data;
+  } catch (error) {
+    console.error('Error fetching device:', error);
+    throw error;
+  }
+};
 
-// TODO: Complete remaining implementation (40% done)
+// POST toggle device status
+export const toggleDevice = async (deviceId) => {
+  try {
+    const response = await fetch(`${SERVER_URL}/api/devices/${deviceId}/toggle`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    
+    if (!response.ok) {
+      throw new Error('Failed to toggle device');
+    }
+    
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error toggling device:', error);
+    throw error;
+  }
+};
+
+// POST update device (for complex updates)
+export const updateDevice = async (deviceId, updates) => {
+  try {
+    const response = await fetch(`${SERVER_URL}/api/devices/${deviceId}/update`, {
+      method: 'POST',
+      headers: {
+
+// TODO: Complete remaining implementation (70% done)
