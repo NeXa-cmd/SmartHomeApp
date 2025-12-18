@@ -50,5 +50,44 @@ const DeviceCard = ({ device, onToggle }) => {
     }
   };
 
+  return (
+    <TouchableOpacity 
+      style={[styles.card, device.isOn && styles.cardActive]} 
+      onPress={onToggle}
+      activeOpacity={0.7}
+    >
+      <View style={styles.leftSection}>
+        <View style={[styles.iconContainer, { backgroundColor: getIconColor() + '20' }]}>
+          <Ionicons name={getIcon()} size={24} color={getIconColor()} />
+        </View>
+        <View style={styles.info}>
+          <Text style={styles.name}>{device.name}</Text>
+          <Text style={[styles.status, { color: getStatusColor() }]}>
+            {getStatusText()}
+          </Text>
+        </View>
+      </View>
+      
+      <Switch
+        value={device.isOn}
+        onValueChange={onToggle}
+        trackColor={{ false: '#E0E0E0', true: '#81C784' }}
+        thumbColor={device.isOn ? '#4CAF50' : '#BDBDBD'}
+      />
+    </TouchableOpacity>
+  );
+};
 
-// TODO: Complete remaining implementation (40% done)
+const styles = StyleSheet.create({
+  card: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    backgroundColor: '#FFFFFF',
+    padding: 16,
+    marginHorizontal: 16,
+    marginVertical: 8,
+    borderRadius: 12,
+    shadowColor: '#000',
+
+// TODO: Complete remaining implementation (70% done)
