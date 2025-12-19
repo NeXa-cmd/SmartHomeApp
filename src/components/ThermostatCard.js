@@ -126,5 +126,101 @@ const ThermostatCard = ({ device, onUpdate }) => {
             <View style={styles.targetTempDisplay}>
               <Text style={styles.targetTempLabel}>Target</Text>
               <Text style={[styles.targetTemp, isAdjusting && styles.targetTempAdjusting]}>
+                {displayTemp(targetTemp)}{unitLabel}
+              </Text>
+            </View>
 
-// TODO: Complete remaining implementation (40% done)
+            <TouchableOpacity 
+              style={[styles.tempButton, targetTemp >= maxTemp && styles.tempButtonDisabled]}
+              onPress={increaseTemp}
+              disabled={targetTemp >= maxTemp}
+            >
+              <Ionicons name="add" size={24} color={targetTemp >= maxTemp ? '#CCC' : '#4A90D9'} />
+            </TouchableOpacity>
+          </View>
+
+          {/* Temperature Progress Bar */}
+          <View style={styles.progressContainer}>
+            <View style={styles.progressBar}>
+              <View 
+                style={[
+                  styles.progressFill, 
+                  { 
+                    width: `${((currentTemp - minTemp) / (maxTemp - minTemp)) * 100}%`,
+                    backgroundColor: getStatusColor(),
+                  }
+                ]} 
+              />
+              <View 
+                style={[
+                  styles.targetMarker,
+                  { left: `${((targetTemp - minTemp) / (maxTemp - minTemp)) * 100}%` }
+                ]}
+              />
+            </View>
+            <View style={styles.progressLabels}>
+              <Text style={styles.progressLabel}>{displayTemp(minTemp)}{unitLabel}</Text>
+              <Text style={styles.progressLabel}>{displayTemp(maxTemp)}{unitLabel}</Text>
+            </View>
+          </View>
+        </View>
+      )}
+
+      {!device.isOn && (
+        <View style={styles.offContainer}>
+          <Text style={styles.offText}>Thermostat is off</Text>
+        </View>
+      )}
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  card: {
+    backgroundColor: '#FFFFFF',
+    padding: 16,
+    marginHorizontal: 16,
+    marginVertical: 8,
+    borderRadius: 16,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 2,
+    borderLeftWidth: 4,
+    borderLeftColor: '#E0E0E0',
+  },
+  cardActive: {
+    borderLeftColor: '#FF9800',
+  },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  headerLeft: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  iconContainer: {
+    width: 48,
+    height: 48,
+    borderRadius: 12,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 12,
+  },
+  name: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#333333',
+    marginBottom: 2,
+  },
+  status: {
+    fontSize: 14,
+    fontWeight: '500',
+  },
+  controls: {
+    marginTop: 20,
+
+// TODO: Complete remaining implementation (70% done)
