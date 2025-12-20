@@ -12,5 +12,15 @@ const Header = ({ title }) => {
 };
 
 const styles = StyleSheet.create({
+  header: {
+    backgroundColor: '#4A90D9',
+    paddingTop: 50,
+    paddingBottom: 15,
+    paddingHorizontal: 20,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
 
-// TODO: Complete remaining implementation (40% done)
+// TODO: Complete remaining implementation (70% done)
