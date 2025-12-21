@@ -61,5 +61,53 @@ const Rooms = ({ navigation }) => {
       </View>
     </View>
   );
+};
 
-// TODO: Complete remaining implementation (40% done)
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#F5F7FA',
+  },
+  content: {
+    flex: 1,
+    padding: 20,
+  },
+  subtitle: {
+    fontSize: 16,
+    color: '#666',
+    marginBottom: 20,
+  },
+  roomsGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+  },
+  roomCard: {
+    width: '48%',
+    backgroundColor: '#FFFFFF',
+    borderRadius: 16,
+    padding: 20,
+    marginBottom: 16,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 2,
+  },
+  roomIconContainer: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    backgroundColor: '#F0F7FF',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 12,
+  },
+  roomName: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#333',
+    marginBottom: 4,
+
+// TODO: Complete remaining implementation (70% done)
