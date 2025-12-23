@@ -188,5 +188,147 @@ const Dashboard = ({ navigation }) => {
       <View style={styles.container}>
         <Header title="Smart Home" />
         <View style={styles.centered}>
+          <View style={styles.errorIcon}>
+            <Text style={styles.errorIconText}>!</Text>
+          </View>
+          <Text style={styles.errorText}>{error}</Text>
+          <Text style={styles.serverUrl}>Server: {getServerUrl()}</Text>
+          
+          <TouchableOpacity style={styles.retryButton} onPress={loadDevices}>
+            <Text style={styles.retryButtonText}>Retry</Text>
+          </TouchableOpacity>
+          
+          <TouchableOpacity 
+            style={styles.settingsButton} 
+            onPress={() => navigation.navigate('Settings')}
+          >
+            <Text style={styles.settingsButtonText}>Open Settings</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    );
+  }
 
-// TODO: Complete remaining implementation (40% done)
+  // Render device list with tabs
+  return (
+    <View style={styles.container}>
+      <Header title="Smart Home" />
+      
+      <View style={styles.subHeader}>
+        <View>
+          <Text style={styles.welcomeText}>Welcome back!</Text>
+          <Text style={styles.subHeaderText}>{devices.length} devices connected</Text>
+        </View>
+        <TouchableOpacity 
+          style={styles.settingsIconBtn}
+          onPress={() => navigation.navigate('Settings')}
+        >
+          <Ionicons name="settings-outline" size={20} color="#4A90D9" />
+        </TouchableOpacity>
+      </View>
+
+      {renderTabs()}
+
+      <FlatList
+        data={filteredDevices}
+        keyExtractor={(item) => item.id.toString()}
+        renderItem={renderDeviceItem}
+        contentContainerStyle={styles.listContent}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+            colors={['#4A90D9']}
+            tintColor="#4A90D9"
+          />
+        }
+        ListEmptyComponent={
+          <View style={styles.emptyContainer}>
+            <Ionicons name="cube-outline" size={48} color="#CCC" />
+            <Text style={styles.emptyTitle}>No devices found</Text>
+            <Text style={styles.emptyText}>
+              {activeTab === 'all' 
+                ? 'No devices are connected yet' 
+                : `No ${TABS.find(t => t.id === activeTab)?.label.toLowerCase()} devices`}
+            </Text>
+          </View>
+        }
+      />
+
+      {/* Bottom Navigation Bar */}
+      <View style={styles.bottomNav}>
+        <TouchableOpacity style={styles.navItem}>
+          <Ionicons name="home" size={24} color="#4A90D9" />
+          <Text style={[styles.navText, styles.navTextActive]}>Home</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.navItem} onPress={() => navigation.navigate('Rooms')}>
+          <Ionicons name="grid-outline" size={24} color="#999" />
+          <Text style={styles.navText}>Rooms</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.navItem} onPress={() => navigation.navigate('Scenes')}>
+          <Ionicons name="color-wand-outline" size={24} color="#999" />
+          <Text style={styles.navText}>Scenes</Text>
+        </TouchableOpacity>
+        <TouchableOpacity 
+          style={styles.navItem}
+          onPress={() => navigation.navigate('Settings')}
+        >
+          <Ionicons name="person-outline" size={24} color="#999" />
+          <Text style={styles.navText}>Profile</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#F5F7FA',
+  },
+  centered: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 20,
+  },
+  loadingText: {
+    marginTop: 16,
+    fontSize: 16,
+    color: '#666666',
+  },
+  errorIcon: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    backgroundColor: '#FFE5E5',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 16,
+  },
+  errorIconText: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    color: '#FF5252',
+  },
+  errorText: {
+    fontSize: 16,
+    color: '#FF5252',
+    textAlign: 'center',
+    marginBottom: 8,
+  },
+  serverUrl: {
+    fontSize: 14,
+    color: '#999999',
+    marginBottom: 24,
+  },
+  retryButton: {
+    backgroundColor: '#4A90D9',
+    paddingVertical: 12,
+    paddingHorizontal: 32,
+    borderRadius: 25,
+    marginBottom: 12,
+  },
+  retryButtonText: {
+
+// TODO: Complete remaining implementation (70% done)
