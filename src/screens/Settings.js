@@ -161,5 +161,128 @@ const Settings = ({ navigation }) => {
               Enter your laptop's local IP address to connect the app to your Smart Home server.
             </Text>
 
+            <View style={styles.inputGroup}>
+              <Text style={styles.label}>IP Address</Text>
+              <TextInput
+                style={styles.input}
+                value={ipAddress}
+                onChangeText={setIpAddress}
+                placeholder="192.168.1.x"
+                placeholderTextColor="#AAAAAA"
+                keyboardType="numeric"
+                autoCapitalize="none"
+                autoCorrect={false}
+              />
+            </View>
 
-// TODO: Complete remaining implementation (40% done)
+            <View style={styles.inputGroup}>
+              <Text style={styles.label}>Port</Text>
+              <TextInput
+                style={styles.input}
+                value={port}
+                onChangeText={setPort}
+                placeholder="3000"
+                placeholderTextColor="#AAAAAA"
+                keyboardType="numeric"
+              />
+            </View>
+
+            <View style={styles.previewContainer}>
+              <Text style={styles.previewLabel}>Full URL:</Text>
+              <Text style={styles.previewUrl}>{buildUrl()}</Text>
+            </View>
+          </View>
+
+          <View style={styles.helpCard}>
+            <Ionicons name="help-circle-outline" size={20} color="#666" style={styles.helpIcon} />
+            <View>
+              <Text style={styles.helpTitle}>How to find your laptop's IP:</Text>
+              <Text style={styles.helpText}>
+                • Mac: System Preferences → Network{'\n'}
+                • Windows: Open cmd, type "ipconfig"{'\n'}
+                • Linux: Open terminal, type "ip addr"
+              </Text>
+            </View>
+          </View>
+
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity
+              style={[styles.button, styles.testButton]}
+              onPress={handleTestConnection}
+              disabled={testing}
+            >
+              <Ionicons name="wifi-outline" size={20} color="#4A90D9" style={styles.buttonIcon} />
+              <Text style={styles.testButtonText}>
+                {testing ? 'Testing...' : 'Test Connection'}
+              </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity style={[styles.button, styles.saveButton]} onPress={handleSave}>
+              <Ionicons name="save-outline" size={20} color="#FFF" style={styles.buttonIcon} />
+              <Text style={styles.saveButtonText}>Save Settings</Text>
+            </TouchableOpacity>
+          </View>
+
+          <TouchableOpacity 
+            style={styles.backLink} 
+            onPress={() => navigation.goBack()}
+          >
+            <Ionicons name="arrow-back" size={20} color="#666" />
+            <Text style={styles.backLinkText}>Go Back</Text>
+          </TouchableOpacity>
+
+          <View style={styles.bottomPadding} />
+        </KeyboardAvoidingView>
+      </ScrollView>
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#F5F7FA',
+  },
+  content: {
+    flex: 1,
+    padding: 16,
+  },
+  card: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 12,
+    padding: 20,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 2,
+    marginBottom: 16,
+  },
+  sectionTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#333333',
+    marginBottom: 8,
+  },
+  description: {
+    fontSize: 14,
+    color: '#666666',
+    marginBottom: 20,
+    lineHeight: 20,
+  },
+  inputGroup: {
+    marginBottom: 16,
+  },
+  label: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#333333',
+    marginBottom: 8,
+  },
+  input: {
+    backgroundColor: '#F5F7FA',
+    borderWidth: 1,
+    borderColor: '#E0E0E0',
+    borderRadius: 8,
+
+// TODO: Complete remaining implementation (70% done)
