@@ -20,5 +20,22 @@ export default function App() {
     navigate: (screenName) => setCurrentScreen(screenName),
     replace: (screenName) => setCurrentScreen(screenName),
     goBack: () => {
+      // Simple back logic
+      if (currentScreen === 'Settings' || currentScreen === 'Rooms' || currentScreen === 'Scenes') {
+        setCurrentScreen('Dashboard');
+      } else if (currentScreen === 'Dashboard') {
+        setCurrentScreen('Login');
+      }
+    },
+  };
 
-// TODO: Complete remaining implementation (40% done)
+  // Render the current screen
+  const renderScreen = () => {
+    switch (currentScreen) {
+      case 'Login':
+        return <LoginScreen navigation={navigation} />;
+      case 'Dashboard':
+        return <Dashboard navigation={navigation} />;
+      case 'Settings':
+
+// TODO: Complete remaining implementation (70% done)
