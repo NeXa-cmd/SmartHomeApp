@@ -77,5 +77,36 @@ export const updateDevice = async (deviceId, updates) => {
     const response = await fetch(`${SERVER_URL}/api/devices/${deviceId}/update`, {
       method: 'POST',
       headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(updates),
+    });
+    
+    if (!response.ok) {
+      throw new Error('Failed to update device');
+    }
+    
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error updating device:', error);
+    throw error;
+  }
+};
 
-// TODO: Complete remaining implementation (70% done)
+// Health check - test connection to server
+export const checkServerConnection = async () => {
+  try {
+    const response = await fetch(`${SERVER_URL}/api/health`);
+    
+    if (!response.ok) {
+      return false;
+    }
+    
+    const data = await response.json();
+    return data.status === 'ok';
+  } catch (error) {
+    console.error('Server connection check failed:', error);
+    return false;
+  }
+};
