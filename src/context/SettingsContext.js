@@ -31,5 +31,17 @@ export const SettingsProvider = ({ children }) => {
 
 export const useSettings = () => {
   const context = useContext(SettingsContext);
+  if (!context) {
+    throw new Error('useSettings must be used within a SettingsProvider');
+  }
+  return context;
+};
 
-// TODO: Complete remaining implementation (70% done)
+// Temperature conversion helpers
+export const celsiusToFahrenheit = (celsius) => {
+  return Math.round((celsius * 9/5) + 32);
+};
+
+export const fahrenheitToCelsius = (fahrenheit) => {
+  return Math.round((fahrenheit - 32) * 5/9);
+};
