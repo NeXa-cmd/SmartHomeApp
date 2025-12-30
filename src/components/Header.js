@@ -22,5 +22,13 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 3,
+  },
+  title: {
+    color: '#FFFFFF',
+    fontSize: 24,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+});
 
-// TODO: Complete remaining implementation (70% done)
+export default Header;
