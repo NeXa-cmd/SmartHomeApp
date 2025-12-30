@@ -222,5 +222,98 @@ const styles = StyleSheet.create({
   },
   controls: {
     marginTop: 20,
+  },
+  currentTempContainer: {
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  currentTempLabel: {
+    fontSize: 14,
+    color: '#999',
+    marginBottom: 4,
+  },
+  currentTemp: {
+    fontSize: 48,
+    fontWeight: '300',
+    color: '#333',
+  },
+  targetContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 20,
+  },
+  tempButton: {
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    backgroundColor: '#F5F7FA',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 2,
+    borderColor: '#4A90D9',
+  },
+  tempButtonDisabled: {
+    borderColor: '#E0E0E0',
+    backgroundColor: '#F5F5F5',
+  },
+  targetTempDisplay: {
+    alignItems: 'center',
+    marginHorizontal: 24,
+  },
+  targetTempLabel: {
+    fontSize: 12,
+    color: '#999',
+    marginBottom: 2,
+  },
+  targetTemp: {
+    fontSize: 28,
+    fontWeight: '600',
+    color: '#4A90D9',
+  },
+  targetTempAdjusting: {
+    color: '#FF9800',
+  },
+  progressContainer: {
+    marginTop: 8,
+  },
+  progressBar: {
+    height: 8,
+    backgroundColor: '#E0E0E0',
+    borderRadius: 4,
+    position: 'relative',
+    overflow: 'visible',
+  },
+  progressFill: {
+    height: '100%',
+    borderRadius: 4,
+  },
+  targetMarker: {
+    position: 'absolute',
+    top: -4,
+    width: 4,
+    height: 16,
+    backgroundColor: '#333',
+    borderRadius: 2,
+    marginLeft: -2,
+  },
+  progressLabels: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 8,
+  },
+  progressLabel: {
+    fontSize: 12,
+    color: '#999',
+  },
+  offContainer: {
+    alignItems: 'center',
+    paddingVertical: 20,
+  },
+  offText: {
+    fontSize: 16,
+    color: '#999',
+  },
+});
 
-// TODO: Complete remaining implementation (70% done)
+export default ThermostatCard;
