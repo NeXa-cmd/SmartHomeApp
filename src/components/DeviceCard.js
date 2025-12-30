@@ -89,5 +89,42 @@ const styles = StyleSheet.create({
     marginVertical: 8,
     borderRadius: 12,
     shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 2,
+    borderLeftWidth: 4,
+    borderLeftColor: '#E0E0E0',
+  },
+  cardActive: {
+    borderLeftColor: '#4CAF50',
+  },
+  leftSection: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flex: 1,
+  },
+  iconContainer: {
+    width: 48,
+    height: 48,
+    borderRadius: 12,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 12,
+  },
+  info: {
+    flex: 1,
+  },
+  name: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#333333',
+    marginBottom: 4,
+  },
+  status: {
+    fontSize: 14,
+    fontWeight: '500',
+  },
+});
 
-// TODO: Complete remaining implementation (70% done)
+export default DeviceCard;
