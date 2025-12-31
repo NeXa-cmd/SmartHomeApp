@@ -330,5 +330,145 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   retryButtonText: {
+    color: '#FFFFFF',
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  settingsButton: {
+    padding: 12,
+  },
+  settingsButtonText: {
+    color: '#4A90D9',
+    fontSize: 16,
+  },
+  subHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 20,
+    paddingVertical: 16,
+  },
+  welcomeText: {
+    fontSize: 14,
+    color: '#999999',
+  },
+  subHeaderText: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: '#333333',
+  },
+  settingsIconBtn: {
+    backgroundColor: '#FFFFFF',
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    borderRadius: 20,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+    elevation: 2,
+  },
+  settingsIconText: {
+    fontSize: 14,
+    color: '#4A90D9',
+    fontWeight: '500',
+  },
+  tabContainer: {
+    flexDirection: 'row',
+    paddingHorizontal: 16,
+    marginBottom: 8,
+  },
+  tab: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 10,
+    paddingHorizontal: 16,
+    marginRight: 8,
+    borderRadius: 20,
+    backgroundColor: '#FFFFFF',
+  },
+  activeTab: {
+    backgroundColor: '#4A90D9',
+  },
+  tabText: {
+    fontSize: 14,
+    fontWeight: '500',
+    color: '#666666',
+    marginRight: 6,
+  },
+  activeTabText: {
+    color: '#FFFFFF',
+  },
+  tabBadge: {
+    backgroundColor: '#F0F0F0',
+    paddingHorizontal: 8,
+    paddingVertical: 2,
+    borderRadius: 10,
+  },
+  activeTabBadge: {
+    backgroundColor: 'rgba(255,255,255,0.3)',
+  },
+  tabBadgeText: {
+    fontSize: 12,
+    fontWeight: '600',
+    color: '#666666',
+  },
+  activeTabBadgeText: {
+    color: '#FFFFFF',
+  },
+  listContent: {
+    paddingBottom: 100,
+  },
+  emptyContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingTop: 60,
+  },
+  emptyTitle: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: '#333333',
+    marginTop: 16,
+    marginBottom: 8,
+  },
+  emptyText: {
+    fontSize: 14,
+    color: '#999999',
+  },
+  bottomNav: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    flexDirection: 'row',
+    backgroundColor: '#FFFFFF',
+    paddingVertical: 12,
+    paddingBottom: 28,
+    borderTopWidth: 1,
+    borderTopColor: '#F0F0F0',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: -2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 10,
+  },
+  navItem: {
+    flex: 1,
+    alignItems: 'center',
+  },
+  navText: {
+    fontSize: 12,
+    color: '#999999',
+    marginTop: 4,
+  },
+  navTextActive: {
+    color: '#4A90D9',
+    fontWeight: '600',
+  },
+  tabIcon: {
+    marginRight: 4,
+  },
+});
 
-// TODO: Complete remaining implementation (70% done)
+export default Dashboard;
