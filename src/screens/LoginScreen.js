@@ -142,5 +142,64 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '600',
     color: '#333333',
+    marginBottom: 8,
+  },
+  input: {
+    backgroundColor: '#F5F7FA',
+    borderWidth: 1,
+    borderColor: '#E0E0E0',
+    borderRadius: 10,
+    padding: 14,
+    fontSize: 16,
+    color: '#333333',
+  },
+  forgotPassword: {
+    alignSelf: 'flex-end',
+    marginBottom: 24,
+  },
+  forgotPasswordText: {
+    color: '#4A90D9',
+    fontSize: 14,
+  },
+  loginButton: {
+    backgroundColor: '#4A90D9',
+    paddingVertical: 16,
+    borderRadius: 10,
+    alignItems: 'center',
+    shadowColor: '#4A90D9',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 4,
+    marginBottom: 16,
+  },
+  loginButtonText: {
+    color: '#FFFFFF',
+    fontSize: 18,
+    fontWeight: '600',
+  },
+  settingsLink: {
+    alignItems: 'center',
+    padding: 10,
+  },
+  settingsLinkText: {
+    color: '#999999',
+    fontSize: 14,
+  },
+  footer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginTop: 30,
+  },
+  footerText: {
+    color: '#666666',
+    fontSize: 14,
+  },
+  signUpText: {
+    color: '#4A90D9',
+    fontSize: 14,
+    fontWeight: '600',
+  },
+});
 
-// TODO: Complete remaining implementation (70% done)
+export default LoginScreen;
