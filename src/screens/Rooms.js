@@ -109,5 +109,50 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: '#333',
     marginBottom: 4,
+  },
+  roomDevices: {
+    fontSize: 14,
+    color: '#999',
+  },
+  addRoomButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 16,
+    marginTop: 8,
+    marginBottom: 100,
+  },
+  addRoomText: {
+    fontSize: 16,
+    color: '#4A90D9',
+    marginLeft: 8,
+    fontWeight: '500',
+  },
+  bottomNav: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    flexDirection: 'row',
+    backgroundColor: '#FFFFFF',
+    paddingVertical: 12,
+    paddingBottom: 28,
+    borderTopWidth: 1,
+    borderTopColor: '#F0F0F0',
+  },
+  navItem: {
+    flex: 1,
+    alignItems: 'center',
+  },
+  navText: {
+    fontSize: 12,
+    color: '#999',
+    marginTop: 4,
+  },
+  navTextActive: {
+    color: '#4A90D9',
+    fontWeight: '600',
+  },
+});
 
-// TODO: Complete remaining implementation (70% done)
+export default Rooms;
