@@ -217,5 +217,96 @@ const styles = StyleSheet.create({
   sceneHeader: {
     flexDirection: 'row',
     alignItems: 'center',
+    marginBottom: 4,
+  },
+  sceneName: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#333',
+  },
+  functionalBadge: {
+    backgroundColor: '#E8F5E9',
+    paddingHorizontal: 8,
+    paddingVertical: 2,
+    borderRadius: 10,
+    marginLeft: 8,
+  },
+  functionalBadgeText: {
+    fontSize: 10,
+    color: '#4CAF50',
+    fontWeight: '600',
+  },
+  comingSoonBadge: {
+    backgroundColor: '#F5F5F5',
+    paddingHorizontal: 8,
+    paddingVertical: 2,
+    borderRadius: 10,
+    marginLeft: 8,
+  },
+  comingSoonBadgeText: {
+    fontSize: 10,
+    color: '#999',
+    fontWeight: '600',
+  },
+  sceneDescription: {
+    fontSize: 13,
+    color: '#999',
+  },
+  addSceneButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 16,
+    marginTop: 8,
+    marginBottom: 100,
+  },
+  addSceneText: {
+    fontSize: 16,
+    color: '#4A90D9',
+    marginLeft: 8,
+    fontWeight: '500',
+  },
+  loadingOverlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(255,255,255,0.9)',
+    zIndex: 100,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  loadingText: {
+    marginTop: 16,
+    fontSize: 16,
+    color: '#666',
+  },
+  bottomNav: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    flexDirection: 'row',
+    backgroundColor: '#FFFFFF',
+    paddingVertical: 12,
+    paddingBottom: 28,
+    borderTopWidth: 1,
+    borderTopColor: '#F0F0F0',
+  },
+  navItem: {
+    flex: 1,
+    alignItems: 'center',
+  },
+  navText: {
+    fontSize: 12,
+    color: '#999',
+    marginTop: 4,
+  },
+  navTextActive: {
+    color: '#4A90D9',
+    fontWeight: '600',
+  },
+});
 
-// TODO: Complete remaining implementation (70% done)
+export default Scenes;
