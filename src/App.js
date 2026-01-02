@@ -37,5 +37,20 @@ export default function App() {
       case 'Dashboard':
         return <Dashboard navigation={navigation} />;
       case 'Settings':
+        return <Settings navigation={navigation} />;
+      case 'Rooms':
+        return <Rooms navigation={navigation} />;
+      case 'Scenes':
+        return <Scenes navigation={navigation} />;
+      default:
+        return <LoginScreen navigation={navigation} />;
+    }
+  };
 
-// TODO: Complete remaining implementation (70% done)
+  return (
+    <SettingsProvider>
+      <StatusBar style="dark" />
+      {renderScreen()}
+    </SettingsProvider>
+  );
+}
