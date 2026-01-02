@@ -90,5 +90,42 @@ app.post('/api/devices/:id/update', (req, res) => {
   
   if (!device) {
     return res.status(404).json({ error: 'Device not found' });
+  }
+  
+  // Update device properties
+  if (typeof isOn === 'boolean') {
+    device.isOn = isOn;
+  }
+  if (typeof temperature === 'number') {
+    device.temperature = temperature;
+  }
+  
+  console.log(`POST /api/devices/${id}/update - Updated ${device.name}`);
+  res.json(device);
+});
 
-// TODO: Complete remaining implementation (70% done)
+// Health check endpoint
+app.get('/api/health', (req, res) => {
+  res.json({ status: 'ok', message: 'Smart Home Server is running!' });
+});
+
+// Start server
+app.listen(PORT, '0.0.0.0', () => {
+  console.log('');
+  console.log('================================');
+  console.log('Smart Home Server Started!');
+  console.log('================================');
+  console.log(`Server running on port ${PORT}`);
+  console.log('');
+  console.log('To connect from your phone:');
+  console.log('   1. Find your laptop IP address');
+  console.log('   2. Enter it in the app Settings screen');
+  console.log('   3. Example: http://192.168.1.x:3000');
+  console.log('');
+  console.log('Available endpoints:');
+  console.log('   GET  /api/devices        - Get all devices');
+  console.log('   GET  /api/devices/:id    - Get single device');
+  console.log('   POST /api/devices/:id/toggle - Toggle device');
+  console.log('   GET  /api/health         - Health check');
+  console.log('');
+});
