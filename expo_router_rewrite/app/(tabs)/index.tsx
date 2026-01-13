@@ -127,8 +127,8 @@ export default function Dashboard() {
         >
           <Ionicons
             name={tab.icon}
-            size={16}
-            color={activeTab === tab.id ? '#FFFFFF' : '#666666'}
+            size={20}
+            color={activeTab === tab.id ? '#FFFFFF' : '#4A90D9'}
             style={styles.tabIcon}
           />
           <Text
@@ -339,53 +339,56 @@ const styles = StyleSheet.create({
   },
   tabContainer: {
     flexDirection: 'row',
-    paddingHorizontal: 12,
-    marginBottom: 8,
+    paddingHorizontal: 16,
+    marginBottom: 12,
+    gap: 8,
   },
   tab: {
     flex: 1,
-    flexDirection: 'row',
+    flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingVertical: 10,
-    paddingHorizontal: 8,
-    marginHorizontal: 4,
+    paddingVertical: 12,
+    paddingHorizontal: 4,
     borderRadius: 12,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#F5F7FA',
+    borderWidth: 1,
+    borderColor: '#E0E0E0',
   },
   activeTab: {
     backgroundColor: '#4A90D9',
+    borderColor: '#4A90D9',
   },
   tabIcon: {
-    marginRight: 4,
+    marginBottom: 6,
   },
   tabText: {
-    fontSize: 12,
+    fontSize: 11,
     fontWeight: '600',
     color: '#666666',
-    marginRight: 4,
+    marginBottom: 4,
   },
   activeTabText: {
     color: '#FFFFFF',
   },
   tabBadge: {
-    backgroundColor: '#E0E0E0',
-    paddingHorizontal: 6,
+    backgroundColor: '#FFFFFF',
+    paddingHorizontal: 8,
     paddingVertical: 2,
     borderRadius: 10,
-    minWidth: 20,
+    minWidth: 22,
     alignItems: 'center',
   },
   activeTabBadge: {
-    backgroundColor: '#FFFFFF40',
+    backgroundColor: '#FFFFFF',
   },
   tabBadgeText: {
     fontSize: 10,
     fontWeight: 'bold',
-    color: '#666666',
+    color: '#4A90D9',
   },
   activeTabBadgeText: {
-    color: '#FFFFFF',
+    color: '#4A90D9',
   },
   listContent: {
     paddingBottom: 20,

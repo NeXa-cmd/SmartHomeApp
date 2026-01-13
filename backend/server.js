@@ -34,12 +34,12 @@ io.on('connection', (socket) => {
     const device = devices.find(d => d.id === data.deviceId);
     if (device) {
        device.isOn = data.isOn;
-    }
-
-    if (device.type === 'light') {
-      io.emit('update', data); // Broadcast to all clients
-    }else if(device.type === 'lock'){
-      io.emit('lock_update', data); // Broadcast to all clients
+       
+       if (device.type === 'light') {
+         io.emit('update', data); // Broadcast to all clients
+       }else if(device.type === 'lock'){
+         io.emit('lock_update', data); // Broadcast to all clients
+       }
     }
   });
 
@@ -144,7 +144,7 @@ let devices = [
   },
   {
     id: 6,
-    name: 'Bedroom led',
+    name: 'Living-Room led',
     type: 'ledStrip',
     color: '#ad1e1eff',
     isOn: false

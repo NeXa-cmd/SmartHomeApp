@@ -1,7 +1,7 @@
 import { io, Socket } from 'socket.io-client';
 import { Device, ThermostatUpdate } from '@/types/device';
 
-const SERVER_URL = "http://localhost:3000";
+const SERVER_URL = "http://192.168.11.119:3000";
 
 export const socket: Socket = io(SERVER_URL, {
   transports: ['websocket', 'polling'],
@@ -85,27 +85,33 @@ export const toggleDevice = async (deviceId: number, isOn: boolean) => {
 
 };
 
+
 export const updateDevice = async (deviceId: number, updates: ThermostatUpdate): Promise<Device> => {
-  try {
-    const response = await fetch(`${SERVER_URL}/api/devices/${deviceId}`, {
-      method: 'PUT',
-      headers: getHeaders({
-        'Content-Type': 'application/json',
-      }),
-      body: JSON.stringify(updates),
-    });
-    
-    if (!response.ok) {
-      throw new Error('Failed to update device');
-    }
-    
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error('Error updating device:', error);
-    throw error;
-  }
+  // Socket.IO handles the real-time updates, no HTTP request needed
+  return Promise.resolve({ id: deviceId, ...updates } as Device);
 };
+
+// export const updateDevice = async (deviceId: number, updates: ThermostatUpdate): Promise<Device> => {
+//   try {
+//     const response = await fetch(`${SERVER_URL}/api/devices/${deviceId}`, {
+//       method: 'PUT',
+//       headers: getHeaders({
+//         'Content-Type': 'application/json',
+//       }),
+//       body: JSON.stringify(updates),
+//     });
+    
+//     if (!response.ok) {
+//       throw new Error('Failed to update device');
+//     }
+    
+//     const data = await response.json();
+//     return data;
+//   } catch (error) {
+//     console.error('Error updating device:', error);
+//     throw error;
+//   }
+// };
 
 export const checkServerConnection = async (): Promise<boolean> => {
   try {
