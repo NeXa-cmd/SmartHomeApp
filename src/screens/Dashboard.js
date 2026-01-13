@@ -1,22 +1,21 @@
 // Dashboard Screen - Main screen with tabs showing smart devices
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import {
   View,
   Text,
   FlatList,
-  StyleSheet,
   RefreshControl,
   ActivityIndicator,
   TouchableOpacity,
   Alert,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import Header from '../components/Header';
+import ScreenLayout from '../components/ScreenLayout';
 import DeviceCard from '../components/DeviceCard';
 import ThermostatCard from '../components/ThermostatCard';
 import { fetchDevices, toggleDevice, updateDevice, getServerUrl } from '../services/api';
-import { useSettings } from '../context/SettingsContext';
+import styles from '../styles/DashboardStyles';
 
 const TABS = [
   { id: 'all', label: 'All', icon: 'apps-outline' },
@@ -52,9 +51,14 @@ const Dashboard = ({ navigation }) => {
     }
   };
 
+  const hasUniqueRun = useRef(false);
+
   // Load devices when screen mounts
   useEffect(() => {
-    loadDevices();
+    if (!hasUniqueRun.current) {
+      loadDevices();
+      hasUniqueRun.current = true;
+    }
   }, []);
 
   // Pull-to-refresh handler
@@ -64,24 +68,19 @@ const Dashboard = ({ navigation }) => {
   }, []);
 
   // Handle device toggle
-  const handleToggle = async (deviceId) => {
+  const handleToggle = async ({id, isOn}) => {
     try {
       // Optimistic update - update UI immediately
       setDevices((prevDevices) =>
         prevDevices.map((device) =>
-          device.id === deviceId ? { ...device, isOn: !device.isOn } : device
+          device.id === id ? { ...device, isOn: !isOn } : device
         )
       );
 
       // Send request to server
-      const updatedDevice = await toggleDevice(deviceId);
+      const updatedDevice = await toggleDevice({deviceId: id , isOn: isOn});
 
-      // Update with server response
-      setDevices((prevDevices) =>
-        prevDevices.map((device) =>
-          device.id === deviceId ? updatedDevice : device
-        )
-      );
+      
     } catch (err) {
       // Revert on error
       Alert.alert('Error', 'Failed to toggle device. Please try again.');
@@ -166,27 +165,25 @@ const Dashboard = ({ navigation }) => {
         />
       );
     }
-    return <DeviceCard device={item} onToggle={() => handleToggle(item.id)} />;
+    return <DeviceCard device={item} onToggle={() => handleToggle({id: item.id , isOn: item.isOn})} />;
   };
 
   // Render loading state
   if (loading) {
     return (
-      <View style={styles.container}>
-        <Header title="Smart Home" />
+      <ScreenLayout>
         <View style={styles.centered}>
           <ActivityIndicator size="large" color="#4A90D9" />
           <Text style={styles.loadingText}>Loading devices...</Text>
         </View>
-      </View>
+      </ScreenLayout>
     );
   }
 
   // Render error state
   if (error) {
     return (
-      <View style={styles.container}>
-        <Header title="Smart Home" />
+      <ScreenLayout>
         <View style={styles.centered}>
           <View style={styles.errorIcon}>
             <Text style={styles.errorIconText}>!</Text>
@@ -205,15 +202,13 @@ const Dashboard = ({ navigation }) => {
             <Text style={styles.settingsButtonText}>Open Settings</Text>
           </TouchableOpacity>
         </View>
-      </View>
+      </ScreenLayout>
     );
   }
 
   // Render device list with tabs
   return (
-    <View style={styles.container}>
-      <Header title="Smart Home" />
-      
+    <ScreenLayout>
       <View style={styles.subHeader}>
         <View>
           <Text style={styles.welcomeText}>Welcome back!</Text>
@@ -254,221 +249,8 @@ const Dashboard = ({ navigation }) => {
           </View>
         }
       />
-
-      {/* Bottom Navigation Bar */}
-      <View style={styles.bottomNav}>
-        <TouchableOpacity style={styles.navItem}>
-          <Ionicons name="home" size={24} color="#4A90D9" />
-          <Text style={[styles.navText, styles.navTextActive]}>Home</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem} onPress={() => navigation.navigate('Rooms')}>
-          <Ionicons name="grid-outline" size={24} color="#999" />
-          <Text style={styles.navText}>Rooms</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem} onPress={() => navigation.navigate('Scenes')}>
-          <Ionicons name="color-wand-outline" size={24} color="#999" />
-          <Text style={styles.navText}>Scenes</Text>
-        </TouchableOpacity>
-        <TouchableOpacity 
-          style={styles.navItem}
-          onPress={() => navigation.navigate('Settings')}
-        >
-          <Ionicons name="person-outline" size={24} color="#999" />
-          <Text style={styles.navText}>Profile</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
+    </ScreenLayout>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#F5F7FA',
-  },
-  centered: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 20,
-  },
-  loadingText: {
-    marginTop: 16,
-    fontSize: 16,
-    color: '#666666',
-  },
-  errorIcon: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-    backgroundColor: '#FFE5E5',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: 16,
-  },
-  errorIconText: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    color: '#FF5252',
-  },
-  errorText: {
-    fontSize: 16,
-    color: '#FF5252',
-    textAlign: 'center',
-    marginBottom: 8,
-  },
-  serverUrl: {
-    fontSize: 14,
-    color: '#999999',
-    marginBottom: 24,
-  },
-  retryButton: {
-    backgroundColor: '#4A90D9',
-    paddingVertical: 12,
-    paddingHorizontal: 32,
-    borderRadius: 25,
-    marginBottom: 12,
-  },
-  retryButtonText: {
-    color: '#FFFFFF',
-    fontSize: 16,
-    fontWeight: '600',
-  },
-  settingsButton: {
-    padding: 12,
-  },
-  settingsButtonText: {
-    color: '#4A90D9',
-    fontSize: 16,
-  },
-  subHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: 20,
-    paddingVertical: 16,
-  },
-  welcomeText: {
-    fontSize: 14,
-    color: '#999999',
-  },
-  subHeaderText: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: '#333333',
-  },
-  settingsIconBtn: {
-    backgroundColor: '#FFFFFF',
-    paddingVertical: 8,
-    paddingHorizontal: 16,
-    borderRadius: 20,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
-    elevation: 2,
-  },
-  settingsIconText: {
-    fontSize: 14,
-    color: '#4A90D9',
-    fontWeight: '500',
-  },
-  tabContainer: {
-    flexDirection: 'row',
-    paddingHorizontal: 16,
-    marginBottom: 8,
-  },
-  tab: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingVertical: 10,
-    paddingHorizontal: 16,
-    marginRight: 8,
-    borderRadius: 20,
-    backgroundColor: '#FFFFFF',
-  },
-  activeTab: {
-    backgroundColor: '#4A90D9',
-  },
-  tabText: {
-    fontSize: 14,
-    fontWeight: '500',
-    color: '#666666',
-    marginRight: 6,
-  },
-  activeTabText: {
-    color: '#FFFFFF',
-  },
-  tabBadge: {
-    backgroundColor: '#F0F0F0',
-    paddingHorizontal: 8,
-    paddingVertical: 2,
-    borderRadius: 10,
-  },
-  activeTabBadge: {
-    backgroundColor: 'rgba(255,255,255,0.3)',
-  },
-  tabBadgeText: {
-    fontSize: 12,
-    fontWeight: '600',
-    color: '#666666',
-  },
-  activeTabBadgeText: {
-    color: '#FFFFFF',
-  },
-  listContent: {
-    paddingBottom: 100,
-  },
-  emptyContainer: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingTop: 60,
-  },
-  emptyTitle: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: '#333333',
-    marginTop: 16,
-    marginBottom: 8,
-  },
-  emptyText: {
-    fontSize: 14,
-    color: '#999999',
-  },
-  bottomNav: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    flexDirection: 'row',
-    backgroundColor: '#FFFFFF',
-    paddingVertical: 12,
-    paddingBottom: 28,
-    borderTopWidth: 1,
-    borderTopColor: '#F0F0F0',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: -2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 10,
-  },
-  navItem: {
-    flex: 1,
-    alignItems: 'center',
-  },
-  navText: {
-    fontSize: 12,
-    color: '#999999',
-    marginTop: 4,
-  },
-  navTextActive: {
-    color: '#4A90D9',
-    fontWeight: '600',
-  },
-  tabIcon: {
-    marginRight: 4,
-  },
-});
 
 export default Dashboard;

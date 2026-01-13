@@ -1,56 +1,18 @@
-// App.js - Main Navigation Setup
-// Simple state-based navigation to avoid native module issues
+// App.js - Main App Component with Providers
 
-import React, { useState } from 'react';
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
 import { SettingsProvider } from './context/SettingsContext';
-
-// Import screens
-import LoginScreen from './screens/LoginScreen';
-import Dashboard from './screens/Dashboard';
-import Settings from './screens/Settings';
-import Rooms from './screens/Rooms';
-import Scenes from './screens/Scenes';
+import AppNavigator from './navigation/AppNavigator';
 
 export default function App() {
-  const [currentScreen, setCurrentScreen] = useState('Login');
-
-  // Simple navigation object to pass to screens
-  const navigation = {
-    navigate: (screenName) => setCurrentScreen(screenName),
-    replace: (screenName) => setCurrentScreen(screenName),
-    goBack: () => {
-      // Simple back logic
-      if (currentScreen === 'Settings' || currentScreen === 'Rooms' || currentScreen === 'Scenes') {
-        setCurrentScreen('Dashboard');
-      } else if (currentScreen === 'Dashboard') {
-        setCurrentScreen('Login');
-      }
-    },
-  };
-
-  // Render the current screen
-  const renderScreen = () => {
-    switch (currentScreen) {
-      case 'Login':
-        return <LoginScreen navigation={navigation} />;
-      case 'Dashboard':
-        return <Dashboard navigation={navigation} />;
-      case 'Settings':
-        return <Settings navigation={navigation} />;
-      case 'Rooms':
-        return <Rooms navigation={navigation} />;
-      case 'Scenes':
-        return <Scenes navigation={navigation} />;
-      default:
-        return <LoginScreen navigation={navigation} />;
-    }
-  };
-
   return (
     <SettingsProvider>
-      <StatusBar style="dark" />
-      {renderScreen()}
+      <NavigationContainer>
+        <StatusBar style="dark" />
+        <AppNavigator />
+      </NavigationContainer>
     </SettingsProvider>
   );
 }
