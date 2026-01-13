@@ -51,6 +51,19 @@ io.on('connection', (socket) => {
     socket.broadcast.emit("update",data)
   })
 
+  socket.on("room_led_color", (data) => {
+    console.log('LED color change received:', data);
+    const device = devices.find(d => d.id === data.deviceId);
+    if (device && device.type === 'ledStrip') {
+      device.color = data.color;
+      // Emit to HTML devices page for room border effect
+      io.emit('room_led', {
+        room: data.room,
+        color: data.color
+      });
+    }
+  });
+
   // Thermostat: Set target temperature
   socket.on('thermostat_set', (data) => {
     console.log('Thermostat set received:', data);
@@ -105,7 +118,7 @@ let devices = [
   },
   {
     id: 2,
-    name: 'Thermostat',
+    name: 'Bathroom Thermostat',
     type: 'thermostat',
     isOn: false,
     temperature: 22,
@@ -113,7 +126,7 @@ let devices = [
   },
   {
     id: 3,
-    name: 'Front Door Lock',
+    name: 'Bedroom Lock',
     type: 'lock',
     isOn: true // true = locked
   },

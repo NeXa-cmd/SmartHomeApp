@@ -3,19 +3,90 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Smart Home Devices</title>
     <style>
-      div > div {
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Oxygen, Ubuntu, Cantarell, sans-serif;
+        background: linear-gradient(135deg, #000000 0%, #383738 100%);
+        min-height: 100vh;
+        padding: 20px;
+      }
+
+      #rooms {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      #rooms > div {
+        background: rgba(131, 127, 127, 0.95);
+        padding: 20px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        backdrop-filter: blur(10px);
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        min-height: 300px;
         display: flex;
         flex-wrap: wrap;
-        gap: 20px;
-        border-style: solid;
-        border-width: 2px;
-        border-color: black;
+        gap: 15px;
+        align-content: flex-start;
+        position: relative;
+      }
+
+      #rooms > div::before {
+        content: attr(id);
+        position: absolute;
+        top: -12px;
+        left: 20px;
+        background: linear-gradient(135deg, #355266 0%, #384f79 100%);
+        color: white;
+        padding: 6px 16px;
+        border-radius: 20px;
+        font-size: 14px;
+        font-weight: 600;
+        text-transform: capitalize;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+      }
+
+      #living-room::before {
+        content: "Living Room";
+      }
+
+      #kitchen::before {
+        content: "Kitchen";
+      }
+
+      #bedroom::before {
+        content: "Bedroom";
+        border-color: transparent;
+      }
+
+      #bathroom::before {
+        content: "Bathroom";
+      }
+
+      svg {
+        transition: all 300ms ease;
+        filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+        cursor: pointer;
       }
 
       * {
         transition: all 800ms ease;
+      }
+
+      @media (max-width: 768px) {
+        #rooms {
+          grid-template-columns: 1fr;
+        }
       }
     </style>
   </head>

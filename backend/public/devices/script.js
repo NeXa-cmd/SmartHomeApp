@@ -5,7 +5,7 @@ let body ;
 let shackle ;
 let text ;
 
-const ledStrip = document.getElementById("bedroom");
+const ledStrip = document.getElementById("living-room");
 // Fetch initial state
 fetch(`${local}/api/devices`)
   .then(res => res.json())
@@ -37,10 +37,13 @@ fetch(`${local}/api/devices`)
                 circle.setAttribute("r", "50");
                 circle.setAttribute("stroke-width", "2");
 
-                if(device.isOn)
+                if(device.isOn) {
                     circle.setAttribute("fill", "hsla(51, 97%, 66%, 1.00)");
-                else
+                    circle.setAttribute("filter", "drop-shadow(0 0 20px hsla(51, 97%, 66%, 0.8))");
+                } else {
                     circle.setAttribute("fill", "hsl(0, 0%, 20%)");
+                    circle.setAttribute("filter", "none");
+                }
                 
                 svg.appendChild(circle);
                 roomDiv.appendChild(svg);
@@ -73,13 +76,16 @@ fetch(`${local}/api/devices`)
       bg.setAttribute("stroke-width", "4");
       svg.appendChild(bg);
   
+      // Calculate temperature color (blue for cold, orange for warm)
+      const tempColor = getThermostatColor(device.currentTemperature);
+      
       // Active Indicator (ring or fill)
       const indicator = document.createElementNS(svgNS, "circle");
       indicator.setAttribute("id", `thermostat-indicator-${device.id}`);
       indicator.setAttribute("cx", "100");
       indicator.setAttribute("cy", "100");
       indicator.setAttribute("r", "80");
-      indicator.setAttribute("fill", device.isOn ? "orange" : "#333");
+      indicator.setAttribute("fill", device.isOn ? tempColor : "#333");
       svg.appendChild(indicator);
   
       // Current Temp Text
@@ -108,6 +114,28 @@ fetch(`${local}/api/devices`)
       svg.appendChild(targetText);
   
       container.appendChild(svg);
+      
+      // Update room background color based on temperature
+      if(device.isOn) {
+          updateRoomTemperature(container, device.currentTemperature);
+      }
+  }
+
+  function getThermostatColor(temp) {
+      // Blue for cold (< 18°C), Orange for warm (> 24°C), gradient in between
+      if (temp < 18) return "#3b82f6"; // Blue
+      if (temp > 24) return "#f97316"; // Orange
+      // Gradient from blue to orange
+      const ratio = (temp - 18) / (24 - 18);
+      const r = Math.round(59 + (249 - 59) * ratio);
+      const g = Math.round(130 + (115 - 130) * ratio);
+      const b = Math.round(246 + (22 - 246) * ratio);
+      return `rgb(${r}, ${g}, ${b})`;
+  }
+
+  function updateRoomTemperature(roomDiv, temp) {
+      const tempColor = getThermostatColor(temp);
+      roomDiv.style.background = `linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, ${tempColor}22 100%)`;
   }
 
   function createLock(device, container) {
@@ -167,11 +195,18 @@ fetch(`${local}/api/devices`)
       const currentText = document.getElementById(`thermostat-current-${data.id}`);
       const targetText = document.getElementById(`thermostat-target-${data.id}`);
       
+      const tempColor = getThermostatColor(data.currentTemperature || 20);
+      
       if(indicator && data.isOn !== undefined) {
-         indicator.setAttribute("fill", data.isOn ? "orange" : "#333");
+         indicator.setAttribute("fill", data.isOn ? tempColor : "#333");
       }
       if(currentText && data.currentTemperature !== undefined) {
           currentText.textContent = `${data.currentTemperature}°`;
+          // Update room background based on temperature
+          const roomDiv = document.getElementById('living-room');
+          if(roomDiv && data.isOn) {
+              updateRoomTemperature(roomDiv, data.currentTemperature);
+          }
       }
       if(targetText && data.temperature !== undefined) {
           targetText.textContent = `Target: ${data.temperature}°`;
@@ -198,17 +233,25 @@ fetch(`${local}/api/devices`)
   function toggleLamp(deviceId, isON){
       const circle = document.getElementById(deviceId);
       if(circle) {
-          if(isON)
+          if(isON) {
             circle.setAttribute("fill", "hsla(51, 97%, 66%, 1.00)");
-        else
+            circle.setAttribute("filter", "drop-shadow(0 0 20px hsla(51, 97%, 66%, 0.8))");
+          } else {
             circle.setAttribute("fill", "hsl(0, 0%, 20%)");
-    }
-}
+            circle.setAttribute("filter", "none");
+          }
+      }
+  }
 
 function setLedColor(color){
     if(ledStrip) {
         ledStrip.style.borderColor = color;
-        ledStrip.style.boxShadow = `0 0 10px ${color}, 0 0 20px ${color}, 0 0 30px ${color}, 0 0 40px ${color}`;
+        ledStrip.style.boxShadow = `
+         
+            inset 0 0 10px ${color},
+            inset 0 0 20px ${color},
+            inset 0 0 30px ${color}
+        `;
     }
 }
 
