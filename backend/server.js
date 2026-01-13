@@ -208,6 +208,9 @@ setInterval(() => {
   }
 }, 2000); // Update every 2 seconds
 
+app.get("/devices/script.js",(req,res)=>{
+    res.sendFile("script.js" , { root: __dirname + "/public/devices"});
+})
 // Start server
 server.listen(PORT, '0.0.0.0', () => {
   console.log('');
