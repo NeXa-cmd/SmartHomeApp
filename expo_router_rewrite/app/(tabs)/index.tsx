@@ -14,6 +14,7 @@ import { useRouter } from 'expo-router';
 import ScreenLayout from '@/components/ScreenLayout';
 import DeviceCard from '@/components/DeviceCard';
 import ThermostatCard from '@/components/ThermostatCard';
+import LedStripCard from '@/components/LedStripCard';
 import { fetchDevices, toggleDevice, updateDevice, getServerUrl } from '@/services/api';
 import { Device, ThermostatUpdate } from '@/types/device';
 
@@ -22,6 +23,7 @@ const TABS = [
   { id: 'light', label: 'Lights', icon: 'bulb-outline' },
   { id: 'thermostat', label: 'Climate', icon: 'thermometer-outline' },
   { id: 'lock', label: 'Security', icon: 'lock-closed-outline' },
+  { id: 'ledStrip', label: 'LED', icon: 'color-wand-outline' },
 ] as const;
 
 type TabId = typeof TABS[number]['id'];
@@ -35,8 +37,8 @@ export default function Dashboard() {
   const [activeTab, setActiveTab] = useState<TabId>('all');
   const hasLoaded = useRef(false);
 
-  const filteredDevices = activeTab === 'all' 
-    ? devices 
+  const filteredDevices = activeTab === 'all'
+    ? devices
     : devices.filter(device => device.type === activeTab);
 
   const loadDevices = async () => {
@@ -95,6 +97,18 @@ export default function Dashboard() {
     }
   };
 
+  const handleLedColorChange = async (deviceId: number, color: string) => {
+    try {
+      setDevices((prev) =>
+        prev.map((device) =>
+          device.id === deviceId ? { ...device, color } : device
+        )
+      );
+    } catch (err) {
+      console.error('Error updating LED color:', err);
+    }
+  };
+
   const getTabCount = (tabId: TabId) => {
     if (tabId === 'all') return devices.length;
     return devices.filter(d => d.type === tabId).length;
@@ -111,10 +125,10 @@ export default function Dashboard() {
           ]}
           onPress={() => setActiveTab(tab.id)}
         >
-          <Ionicons 
-            name={tab.icon} 
-            size={16} 
-            color={activeTab === tab.id ? '#FFFFFF' : '#666666'} 
+          <Ionicons
+            name={tab.icon}
+            size={16}
+            color={activeTab === tab.id ? '#FFFFFF' : '#666666'}
             style={styles.tabIcon}
           />
           <Text
@@ -144,10 +158,19 @@ export default function Dashboard() {
   const renderDeviceItem = ({ item }: { item: Device }) => {
     if (item.type === 'thermostat') {
       return (
-        <ThermostatCard 
-          device={item} 
+        <ThermostatCard
+          device={item}
           onUpdate={handleThermostatUpdate}
           onToggle={() => handleToggle(item.id, item.isOn)}
+        />
+      );
+    }
+    if (item.type === 'ledStrip') {
+      return (
+        <LedStripCard
+          device={item}
+          onToggle={() => handleToggle(item.id, item.isOn)}
+          onColorChange={(color) => handleLedColorChange(item.id, color)}
         />
       );
     }
@@ -174,13 +197,13 @@ export default function Dashboard() {
           </View>
           <Text style={styles.errorText}>{error}</Text>
           <Text style={styles.serverUrl}>Server: {getServerUrl()}</Text>
-          
+
           <TouchableOpacity style={styles.retryButton} onPress={loadDevices}>
             <Text style={styles.retryButtonText}>Retry</Text>
           </TouchableOpacity>
-          
-          <TouchableOpacity 
-            style={styles.settingsButton} 
+
+          <TouchableOpacity
+            style={styles.settingsButton}
             onPress={() => router.push('/(tabs)/settings')}
           >
             <Text style={styles.settingsButtonText}>Open Settings</Text>
@@ -197,7 +220,7 @@ export default function Dashboard() {
           <Text style={styles.welcomeText}>Welcome back!</Text>
           <Text style={styles.subHeaderText}>{devices.length} devices connected</Text>
         </View>
-        <TouchableOpacity 
+        <TouchableOpacity
           style={styles.settingsIconBtn}
           onPress={() => router.push('/(tabs)/settings')}
         >
@@ -225,8 +248,8 @@ export default function Dashboard() {
             <Ionicons name="cube-outline" size={48} color="#CCC" />
             <Text style={styles.emptyTitle}>No devices found</Text>
             <Text style={styles.emptyText}>
-              {activeTab === 'all' 
-                ? 'No devices are connected yet' 
+              {activeTab === 'all'
+                ? 'No devices are connected yet'
                 : `No ${TABS.find(t => t.id === activeTab)?.label.toLowerCase()} devices`}
             </Text>
           </View>

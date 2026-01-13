@@ -16,6 +16,8 @@ const getIcon = (device: Device): keyof typeof Ionicons.glyphMap => {
       return isOn ? 'lock-closed' : 'lock-open-outline';
     case 'thermostat':
       return 'thermometer';
+    case 'ledStrip':
+      return 'color-wand';
     default:
       return 'hardware-chip-outline';
   }
@@ -44,6 +46,8 @@ const getIconColor = (device: Device): string => {
       return '#4CAF50';
     case 'thermostat':
       return '#FF9800';
+    case 'ledStrip':
+      return device.color || '#ad1e1eff';
     default:
       return '#4A90D9';
   }
@@ -51,8 +55,8 @@ const getIconColor = (device: Device): string => {
 
 export default function DeviceCard({ device, onToggle }: DeviceCardProps) {
   return (
-    <TouchableOpacity 
-      style={[styles.card, device.isOn && styles.cardActive]} 
+    <TouchableOpacity
+      style={[styles.card, device.isOn && styles.cardActive]}
       onPress={onToggle}
       activeOpacity={0.7}
     >
@@ -67,7 +71,7 @@ export default function DeviceCard({ device, onToggle }: DeviceCardProps) {
           </Text>
         </View>
       </View>
-      
+
       <Switch
         value={device.isOn}
         onValueChange={onToggle}
