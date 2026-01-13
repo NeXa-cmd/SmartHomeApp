@@ -73,7 +73,7 @@ export default function Dashboard() {
         )
       );
 
-      await toggleDevice(id, isOn);
+      await toggleDevice(id, !isOn);
     } catch (err) {
       Alert.alert('Error', 'Failed to toggle device. Please try again.');
       loadDevices();

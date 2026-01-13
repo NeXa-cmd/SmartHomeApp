@@ -79,27 +79,10 @@ export const fetchDevice = async (deviceId: number): Promise<Device> => {
   }
 };
 
-export const toggleDevice = async (deviceId: number, isOn: boolean): Promise<Device> => {
-  try {
-    const response = await fetch(`${SERVER_URL}/api/devices/${deviceId}/toggle`, {
-      method: 'POST',
-      headers: getHeaders({
-        'Content-Type': 'application/json',
-      }),
-      body: JSON.stringify({ isOn: !isOn }),
-    });
-    
-    socket.emit('lamp_toggle', { deviceId, isOn: !isOn });
-    if (!response.ok) {
-      throw new Error('Failed to toggle device');
-    }
-    
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error('Error toggling device:', error);
-    throw error;
-  }
+export const toggleDevice = async (deviceId: number, isOn: boolean) => {
+
+    socket.emit('lamp_toggle', { deviceId: deviceId, isOn: isOn });
+
 };
 
 export const updateDevice = async (deviceId: number, updates: ThermostatUpdate): Promise<Device> => {

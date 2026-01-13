@@ -30,8 +30,17 @@ io.on('connection', (socket) => {
   // Use named events instead of generic "message"
   socket.on('lamp_toggle', (data) => {
     console.log('Action received:', data);
-    // Send to everyone including the sender
-    io.emit('update', data); 
+    
+    const device = devices.find(d => d.id === data.deviceId);
+    if (device) {
+       device.isOn = data.isOn;
+    }
+
+    if (device.type === 'light') {
+      io.emit('update', data); // Broadcast to all clients
+    }else if(device.type === 'lock'){
+      io.emit('lock_update', data); // Broadcast to all clients
+    }
   });
 
   socket.on("adjust_lamp_brightness", (data)=>{
@@ -81,7 +90,7 @@ app.get('/', (req, res) => {
     res.sendFile('index.html', { root: __dirname });
 }); 
 
-app.get('/device/lamp' , (req , res)=>{
+app.get('/devices' , (req , res)=>{
     res.sendFile('devices/index.html' , { root: __dirname + "/public" });
 })
 
@@ -119,6 +128,13 @@ let devices = [
     name: 'Kitchen Light',
     type: 'light',
     isOn: false
+  },
+  {
+    id: 6,
+    name: 'Bedroom led',
+    type: 'ledStrip',
+    color: '#ad1e1eff',
+    isOn: false
   }
 ];
 
@@ -140,6 +156,12 @@ app.get('/api/devices/:id', (req, res) => {
   console.log(`GET /api/devices/${id} - Sending device: ${device.name}`);
   res.json(device);
 });
+
+
+app.get("/api/lamps", (req, res)=>{
+    const lamps = devices.filter(d=>d.type === "light");
+    res.json(lamps);
+})
 
 // POST toggle device status
 app.post('/api/devices/:id/toggle', (req, res) => {
